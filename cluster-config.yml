@@ -1,0 +1,25 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: airpa
+  region: us-east-1
+
+vpc:
+  id: vpc-<yourVPCID>
+  cidr: "172.0.0.0/16" # use your own VPC CIDR block
+  subnets:
+    public:
+      us-east-1d:
+        id: subnet-<yourSubnet01ID>
+      us-east-1f:
+        id: subnet-<yourSubnet02ID>
+    private:
+      us-east-1a:
+        id: subnet-<yourSubnet03ID>
+      us-east-1b:
+        id: subnet-<yourSubnet04ID>
+
+nodeGroups:
+  - name: eks-workers
+    instanceType: m5.large
+    desiredCapacity: 1

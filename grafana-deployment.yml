@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  namespace: monitoring
+  labels:
+    app: grafana-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana-server
+  template:
+    metadata:
+      labels:
+        app: grafana-server
+    spec:
+      containers:
+        - name: grafana
+          image: <yourAWSAccountNumber>.dkr.ecr.us-east-1.amazonaws.com/airpa/grafana:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+      securityContext:
+        runAsUser: 0
+        fsGroup: 472
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-storage-claim

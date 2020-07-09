@@ -1,0 +1,28 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: grafana-storage 
+  namespace: monitoring 
+spec:
+  storageClassName: monitoring 
+  capacity:
+    storage: 1Gi 
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/var/lib/grafana"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: grafana-storage-claim
+  namespace: monitoring
+spec:
+  storageClassName: monitoring
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
